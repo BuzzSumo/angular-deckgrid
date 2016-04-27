@@ -209,6 +209,14 @@ angular.module('akoenig.deckgrid').factory('Deckgrid', [
 
             this.$$createColumns();
 
+            this.onWindowResize = function () {
+                if (!self.$$scope.layout) {
+                    self.$$createColumns();
+                }
+            };
+
+            angular.element($window).bind('resize', this.onWindowResize);
+
             //
             // Register model change.
             //
@@ -425,6 +433,8 @@ angular.module('akoenig.deckgrid').factory('Deckgrid', [
             for (i; i >= 0; i = i - 1) {
                 this.$$watchers[i]();
             }
+            
+            this.onWindowResize();
         };
 
         return {
